@@ -1,4 +1,70 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[石火埜の技術系blog]]></title><description><![CDATA[石火埜の技術系blog]]></description><link>https://sekikano.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 24 Feb 2020 08:08:18 GMT</lastBuildDate><item><title><![CDATA[Gatsbyのインストールからスターターの導入まで]]></title><description><![CDATA[はじめに Gatsbyでブログを作成しつつ手順や気付いた点などをまとめていきます。
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[石火埜の技術系blog]]></title><description><![CDATA[石火埜の技術系blog]]></description><link>https://sekikano.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 25 Feb 2020 15:42:50 GMT</lastBuildDate><item><title><![CDATA[Gatsby チュートリアル2 はじめての記事作成]]></title><description><![CDATA[はじめに 今回は前回の続きから、github pagesでの実際の公開までを扱います。 動作の簡単なイメージ 現時点での簡単なイメージとしては、srcフォルダ以下にReactで雛形を作り、Gatsby-*.js等の設定を参考に、GlaphQL…]]></description><link>https://sekikano.github.io/gatsby-start-2/</link><guid isPermaLink="false">https://sekikano.github.io/gatsby-start-2/</guid><pubDate>Sat, 14 Dec 2019 20:30:03 GMT</pubDate><content:encoded>&lt;h2&gt;はじめに&lt;/h2&gt;
+&lt;p&gt;今回は&lt;a href=&quot;/gatsby-start/&quot;&gt;前回&lt;/a&gt;の続きから、github pagesでの実際の公開までを扱います。&lt;/p&gt;
+&lt;h2&gt;動作の簡単なイメージ&lt;/h2&gt;
+&lt;p&gt;現時点での簡単なイメージとしては、srcフォルダ以下にReactで雛形を作り、Gatsby-*.js等の設定を参考に、GlaphQLで取得したデータを流し込むと考えられましょう。&lt;/p&gt;
+&lt;h2&gt;スターター導入時のディレクトリ構成(抜粋)&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;-package.json #node用
+-package.json.lock
+-gatsby-config.js #主に汎用の設定など https://www.gatsbyjs.org/docs/api-files-gatsby-config/
+-gatsby-node.js #主に変換用のコードや設定など https://www.gatsbyjs.org/docs/api-files-gatsby-node/
+-gatsby-browser.js #主にブラウザ用のコードや設定など https://www.gatsbyjs.org/docs/api-files-gatsby-browser/
+-src/
+    -templates/ #変換用雛形
+    -pages/ #個別ページ用
+          -index.js #トップページ用
+    -components/ #雛形用部品
+-content/
+        -blog/ #ブログ内容
+-public/ #公開用フォルダ&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;記事作成&lt;/h2&gt;
+&lt;p&gt;概要を把握した所で記事の作成に入ります。記事の内容が記述されている /content/blog/ ですが下記のような構造になっています。
+一つのディレクトリが一つの記事に対応し、記事本体である index.md ファイルと、記事単体の画像データなどが入っています。
+ここから先は git で管理しつつ行なうと良いでしょう。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;-hello-world/
+            -index.md
+            -salty_egg.jpg
+-my-second-post/
+-new-beginnings/&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;hello-world を 任意の名前(例 hello)に変更して下さい。ディレクトリ名が記事のURLの一部となります。
+続いて内部の index.md を編集します。現状は下記のようになっていると思います。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;---
+title: Hello World
+date: &amp;quot;2015-05-01T22:12:03.284Z&amp;quot;
+description: &amp;quot;Hello World&amp;quot;
+---
+
+This is my first post on my new fake blog! How exciting!
+
+(中略)
+
+![Chinese Salty Egg](./salty_egg.jpg)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;上部の---から---までがヘッダーで GpaphQL で本文とは別に扱われます。title (例 hello) date (T以前を本日の日付に、ZはZuluでUTCのことです) description を適当に変更して下さい。
+---以降の本文には &lt;a href=&quot;https://www.gatsbyjs.org/starters/gatsbyjs/gatsby-starter-blog&quot;&gt;gatsby-starter-blog&lt;/a&gt; では Markdown(CommonMarkやGitHub Flavored等対応) が利用できます。&lt;a href=&quot;https://guides.github.com/features/mastering-markdown/&quot;&gt;このあたり&lt;/a&gt; や &lt;a href=&quot;https://qiita.com/Qiita/items/c686397e4a0f4f11683d&quot;&gt;このあたり&lt;/a&gt; や &lt;a href=&quot;https://gist.github.com/wate/7072365&quot;&gt;このあたり&lt;/a&gt; などが分かりやすいと思います。
+セーブするとブラウザが自動でリロードされ、書いた記事が表示されます。&lt;/p&gt;
+&lt;h2&gt;記事以外のページの編集&lt;/h2&gt;
+&lt;p&gt;このままですとプロフィール等がスターター作者のままですので、設定や雛形を改変します。
+gatsby-config.js から&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;module.exports = {
+  siteMetadata: {
+    title: `Gatsby Starter Blog`,
+    author: `Kyle Mathews`,
+    description: `A starter blog demonstrating what Gatsby can do.`,
+    siteUrl: `https://gatsby-starter-blog-demo.netlify.com/`,
+    social: {
+      twitter: `kylemathews`,
+    },&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;の部分を御自分用に改変して下さい。改変した時に項目を削除する場合には 他のファイル (src/components/seo.js と bio.js等) も変更する必要があります。最後に content/assets/profile-pic.jpg を御自身の写真などに変更しましょう。&lt;/p&gt;
+&lt;h2&gt;まとめ&lt;/h2&gt;
+&lt;p&gt;導入後の記事作成まで行ないました。次回はgithub pagesへのアップロードです。&lt;/p&gt;
+&lt;h2&gt;主要参考URL&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.gatsbyjs.org/docs/&quot;&gt;https://www.gatsbyjs.org/docs/&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://www.gatsbyjs.org/docs/gatsby-project-structure/&quot;&gt;https://www.gatsbyjs.org/docs/gatsby-project-structure/&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://www.gatsbyjs.org/starters/gatsbyjs/gatsby-starter-blog&quot;&gt;https://www.gatsbyjs.org/starters/gatsbyjs/gatsby-starter-blog&lt;/a&gt;
+&lt;a href=&quot;https://qiita.com/Qiita/items/c686397e4a0f4f11683d&quot;&gt;https://qiita.com/Qiita/items/c686397e4a0f4f11683d&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://mottox2.com/posts/182&quot;&gt;https://mottox2.com/posts/182&lt;/a&gt;
+&lt;a href=&quot;https://takumon.com/2018/09/10/&quot;&gt;https://takumon.com/2018/09/10/&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://guides.github.com/features/mastering-markdown/&quot;&gt;https://guides.github.com/features/mastering-markdown/&lt;/a&gt;
+&lt;a href=&quot;https://gist.github.com/wate/7072365&quot;&gt;https://gist.github.com/wate/7072365&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Gatsbyのインストールからスターターの導入まで]]></title><description><![CDATA[はじめに Gatsbyでブログを作成しつつ手順や気付いた点などをまとめていきます。
 想定読者はjavascriptやReactの概要等は把握している、規約より設定派の方です。
 ある程度まとまったら、まとめ記事を作成予定です。Node.js(anyenv…]]></description><link>https://sekikano.github.io/gatsby-start/</link><guid isPermaLink="false">https://sekikano.github.io/gatsby-start/</guid><pubDate>Tue, 10 Dec 2019 22:10:03 GMT</pubDate><content:encoded>&lt;h2&gt;はじめに&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;https://www.gatsbyjs.org/&quot;&gt;Gatsby&lt;/a&gt;でブログを作成しつつ手順や気付いた点などをまとめていきます。
@@ -50,6 +116,7 @@
 &lt;h2&gt;主要参考URL&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;https://www.gatsbyjs.org/tutorial/&quot;&gt;https://www.gatsbyjs.org/tutorial/&lt;/a&gt;&lt;br&gt;
 &lt;a href=&quot;https://www.gatsbyjs.org/starters/gatsbyjs/gatsby-starter-blog&quot;&gt;https://www.gatsbyjs.org/starters/gatsbyjs/gatsby-starter-blog&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;https://github.com/gatsbyjs/gatsby-starter-blog&quot;&gt;https://github.com/gatsbyjs/gatsby-starter-blog&lt;/a&gt;&lt;br&gt;
 &lt;a href=&quot;https://qiita.com/abouch/items/ab7694e64f011ee2b265&quot;&gt;https://qiita.com/abouch/items/ab7694e64f011ee2b265&lt;/a&gt;&lt;br&gt;
 &lt;a href=&quot;https://takumon.com/2018/09/10/&quot;&gt;https://takumon.com/2018/09/10/&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[ブログはじめました]]></title><description><![CDATA[技術系ブログはじめました。 技術系ブログはじめました 暫くはGatsbyを使用しての感想などを、その後はReact、ReactNative、Go、Clojure関連記事等を投稿すると思います。 よろしくお願いします。]]></description><link>https://sekikano.github.io/started-blog/</link><guid isPermaLink="false">https://sekikano.github.io/started-blog/</guid><pubDate>Sat, 07 Dec 2019 22:15:03 GMT</pubDate><content:encoded>&lt;h3&gt;技術系ブログはじめました。&lt;/h3&gt;
 &lt;p&gt;技術系ブログはじめました&lt;/p&gt;
